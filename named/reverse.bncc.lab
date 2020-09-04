@@ -1,0 +1,12 @@
+$TTL 86400
+@   IN  SOA     dns.bncc.lab. root.dns.bncc.lab. (
+        2020090201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+@        IN  NS      dns.bncc.lab.
+1      IN  PTR     dns.bncc.lab.
+2      IN  PTR     www.bncc.lab.
+3      IN  PTR     ftp.bncc.lab.
