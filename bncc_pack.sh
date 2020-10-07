@@ -35,7 +35,7 @@ sudo echo ""
 sudo echo "====================================="
 sleep 5
 
- sudo yum -y install httpd dhcp-server vsftpd bind bind-utils php php-mysqlnd php-json wget
+ sudo yum -y install httpd dhcp-server vsftpd bind bind-utils php php-mysqlnd php-json wget policycoreutils-python-utils
 
 sudo echo "====================================="
 sudo echo ""
@@ -121,6 +121,7 @@ sudo echo "====================================="
 sleep 1
 
  sudo cp dhcp-server/dhcpd.conf /etc/dhcp/dhcpd.conf
+ sudo firewall-cmd --add-service=dhcp --permanent
  sudo systemctl enable --now dhcpd
  sudo systemctl restart dhcp
 
@@ -149,6 +150,9 @@ sudo mkdir /usr/share/phpMyAdmin/tmp
 sudo chmod 777 /usr/share/phpMyAdmin/tmp
 sudo cp phpMyAdmin/config.inc.php /usr/share/phpMyAdmin/
 sudo cp phpMyAdmin/phpMyAdmin.conf /etc/httpd/conf.d/phpMyAdmin.conf
+sudo semanage fcontext -a -t httpd_sys_rw_content_t '/usr/share/phpmyadmin/'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t '/usr/share/phpmyadmin/tmp(/.*)'
+sudo restorecon -Rv '/usr/share/phpmyadmin/'
 sudo mysql < /usr/share/phpMyAdmin/sql/create_tables.sql -u root -p
 sudo systemctl restart httpd
 
